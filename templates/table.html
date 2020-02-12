@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title is-mono">
+            ЗПШ.get_score()
+        </h1>
+    </div>
+    <hr>
+    <div class="container">
+        <table class="table is-hoverable is-fullwidth is-center is-mono">
+             <thead>
+                <tr>
+                    <th>Position</th>
+                    <th>Team</th>
+                    <th>Servers Captured</th>
+                    <th>Total Score</th>
+                </tr>
+             </thead>
+             <tbody>
+                {% for ind, val in result %}
+                    <tr class="{{ "is-selected" if ind == 0 else "" }}">
+                    <th>
+                        {{ ind }}
+                    </th>
+                    <td>
+                        {{ val[2] }}
+                    </td>
+                    <td>
+                        {{ val[1] }}
+                    </td>
+                    <td>
+                        {{ val[0] }}
+                    </td>
+                    </tr>
+                {% endfor %}
+             </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

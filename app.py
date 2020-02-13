@@ -8,9 +8,61 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/register")
+def register():
+    return render_template(register)
+
+
 @app.route('/servers')
 def server_state():
-    return render_template("servers.html")
+    """
+    Num States:
+    0. Uncaptured
+    1. Fight
+    2. Captured
+    3. Unavailable
+    """
+    servers = [
+        {
+            "hostname": "engaged-octopus",
+            "ip": "1.1.1.1",
+            "uptime": "1h56m",
+            "state": "captured by K.G.B.",
+            "num_state": 2
+        },
+        {
+            "hostname": "sad-cat",
+            "ip": "1.2.1.2",
+            "uptime": "2h6m",
+            "state": "fight between K.G.B & grumpy walruses",
+            "num_state": 1
+        },
+        {
+            "hostname": "playful-lion",
+            "ip": "2.2.2.2",
+            "uptime": "server is down",
+            "state": "unavailable",
+            "num_state": 3
+        },
+        {
+            "hostname": "pride-penguin",
+            "ip": "6.0.6.0",
+            "uptime": "1d6h3m",
+            "state": "working properly",
+            "num_state": 0
+        }
+    ]
+
+    coloration = []
+    for ind, val in enumerate(servers):
+        if val['num_state'] == 2:
+            coloration.insert(ind, "has-background-danger")
+        elif val["num_state"] == 1:
+            coloration.insert(ind, "has-background-warning")
+        elif val["num_state"] == 3:
+            coloration.insert(ind, "has-background-grey-lighter")
+
+    return render_template("servers.html", servers=enumerate(servers), coloration=coloration)
 
 
 @app.route('/table')

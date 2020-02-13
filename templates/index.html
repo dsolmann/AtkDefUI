@@ -12,7 +12,7 @@
         <hr>
         <div class="container is-centered is-narrow" style="margin-top: 5vh">
             <div class="level">
-                <button class="button is-medium is-primary level-left is-mono">Зарегистрироваться</button>
+                <button class="button is-medium is-primary level-left is-mono" onclick="window.location.href='{{ url_for('register') }}'">Зарегистрироваться</button>
                 <button class="button is-medium is-success level-right is-mono" onclick="window.location.href='{{ url_for('table') }}'">Турнирная таблица</button>
             </div>
         </div>

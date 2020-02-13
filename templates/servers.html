@@ -9,13 +9,25 @@
     <hr>
     <!-- Work In Progress -->
     <div class="container">
-        <div class="columns is-multiline is-centered has-addons-centered is-grouped-centered">
-            <div class="column">
-                <h2 class="is-mono">Server 1</h2>
+        <div class="columns is-multiline is-centered is-mono">
+            {% for j, i in servers %}
+            <div class="column is-one-third">
+            <div class="card {{ coloration[j] }}">
+              <div class="card-content">
+                <div class="media">
+                  <div class="media-content">
+                    <p class="title is-4">{{ i.hostname }}</p>
+                    <p class="subtitle is-6">{{ i.ip }}</p>
+                  </div>
+                </div>
+                <div class="content">
+                    <p>Uptime: {{ i.uptime }}</p>
+                    <p>State: {{ i.state }}</p>
+                </div>
+              </div>
             </div>
-            <div class="column">
-                <h2 class="is-mono">Server 2</h2>
             </div>
+            {% endfor %}
         </div>
     </div>
 </section>

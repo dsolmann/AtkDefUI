@@ -19,7 +19,7 @@ def is_it_blocked(ip):
     data = dumps({"host": str(ip)})
 
     response = requests.post('https://www.isitblockedinrussia.com/', headers=headers, data=data).json()
-    if len(response["ips"][0]["blocked"]) > 0:
+    if len(response["ips"]) > 0 and len(response["ips"][0]["blocked"]) > 0:
         return True
     else:
         return False

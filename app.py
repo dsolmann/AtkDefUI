@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
 
@@ -8,9 +8,15 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/register")
+@app.route("/register", methods=["POST", "GET"])
 def register():
-    return render_template(register)
+    if request.method == "GET":
+        return render_template("register.html")
+    elif request.method == "POST":
+        team_name = request.form["team"]
+        team_fb = request.form["feedback"]
+        print(team_name, team_fb)  # Replace with needed API
+        return redirect("/servers")
 
 
 @app.route('/servers')

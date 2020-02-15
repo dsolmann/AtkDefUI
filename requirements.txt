@@ -1,3 +1,5 @@
 flask
 python-digitalocean
 requests
+sqlalchemy
+sqlalchemy_mixins

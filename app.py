@@ -1,5 +1,7 @@
 import enum
 from flask import Flask, render_template, request, redirect
+from src.utils.db_utils import session_scope, prepare_db
+from model import model
 
 
 class ServerState(enum.IntEnum):
@@ -76,17 +78,15 @@ def server_state():
 
 @app.route('/table')
 def table():
-    result = [
-        (1000, 16, "К.Г.Б."),  # Score, Servers hijacked, Team Name
-        (100, 3, "Угрюмые Моржи"),
-        (400, 5, "Как назвать?")
-    ]
-
-    result.sort(key=lambda team: team[0])  # Сортируем для вывода в таблице в правильном порядке.
-    result.reverse()
-
-    return render_template("table.html", result=enumerate(result))
+    with session_scope() as session:
+        result = (
+            session.query(model.Team)
+            .order_by(model.Team.score.desc())
+            .all()
+        )
+        return render_template("table.html", result=enumerate(result))
 
 
 if __name__ == '__main__':
+    prepare_db()
     app.run(host='0.0.0.0', port=80)

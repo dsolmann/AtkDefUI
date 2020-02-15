@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/solarized-dark.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+{% block content %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title is-mono">
+                ЗПШ.attack_defense()
+            </h1>
+            <p class="subtitle">
+                Открытое соревнование команд
+            </p>
+        </div>
+        <hr>
+        <div class="container is-centered is-narrow" style="margin-top: 5vh">
+            <pre>
+                <code>
+                    is_available_now = False
+                    print("Подключайтесь позже. Мы еще не доделали)" if not is_available_now else "Вперед!")
+                </code>
+            </pre>
+            <div class="level">
+                <button class="button is-medium is-success level-right is-mono" onclick="window.location.href='https://shorturl.at/fouDY'"> ??? </button>
+            </div>
+        </div>
+    </section>
+{% endblock %}

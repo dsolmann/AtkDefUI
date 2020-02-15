@@ -1,4 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for
+import enum
+from flask import Flask, render_template, request, redirect
+
+
+class ServerState(enum.IntEnum):
+    NOT_CAPTURED = 0
+    FIGHT = 1
+    CAPTURED = 2
+    UNAVAILABLE = 3
+
 
 app = Flask(__name__)
 
@@ -21,51 +30,44 @@ def register():
 
 @app.route('/servers')
 def server_state():
-    """
-    Num States:
-    0. Uncaptured
-    1. Fight
-    2. Captured
-    3. Unavailable
-    """
     servers = [
         {
             "hostname": "engaged-octopus",
             "ip": "1.1.1.1",
             "uptime": "1h56m",
             "state": "captured by K.G.B.",
-            "num_state": 2
+            "num_state": ServerState.CAPTURED
         },
         {
             "hostname": "sad-cat",
             "ip": "1.2.1.2",
             "uptime": "2h6m",
             "state": "fight between K.G.B & grumpy walruses",
-            "num_state": 1
+            "num_state": ServerState.FIGHT
         },
         {
             "hostname": "playful-lion",
             "ip": "2.2.2.2",
             "uptime": "server is down",
             "state": "unavailable",
-            "num_state": 3
+            "num_state": ServerState.UNAVAILABLE
         },
         {
             "hostname": "pride-penguin",
             "ip": "6.0.6.0",
             "uptime": "1d6h3m",
             "state": "working properly",
-            "num_state": 0
+            "num_state": ServerState.NOT_CAPTURED
         }
     ]
 
     coloration = []
     for ind, val in enumerate(servers):
-        if val['num_state'] == 2:
+        if val['num_state'] == ServerState.FIGHT:
             coloration.insert(ind, "has-background-danger")
-        elif val["num_state"] == 1:
+        elif val["num_state"] == ServerState.CAPTURED:
             coloration.insert(ind, "has-background-warning")
-        elif val["num_state"] == 3:
+        elif val["num_state"] == ServerState.UNAVAILABLE:
             coloration.insert(ind, "has-background-grey-lighter")
 
     return render_template("servers.html", servers=enumerate(servers), coloration=coloration)

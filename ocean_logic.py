@@ -24,7 +24,7 @@ words = [
 ]
 
 
-def create_srv(team_name, cloud_config="", is_admin=False):
+def create_srv(team_name, cloud_config="", is_admin=False, max_retries=3, current_try=1):
     keys = manager.get_all_sshkeys()
     droplet = digitalocean.Droplet(
         token=token,
@@ -50,9 +50,8 @@ def create_srv(team_name, cloud_config="", is_admin=False):
 
     if rkn_logic.is_it_blocked(droplet.ip_address):
         droplet.destroy()
-        try:
-            return create_srv(team_name)
-        except RecursionError:
-            return None
+        if current_try <= max_retries:
+            return create_srv(team_name, current_try=current_try + 1)
+        raise RecursionError('Max retries reached')
 
     return droplet

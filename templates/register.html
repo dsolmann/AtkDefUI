@@ -1,4 +1,10 @@
 {% extends "base.html" %}
+{% block head %}
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/solarized-dark.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
 {% block content %}
     <section class="section">
         <div class="container">
@@ -11,23 +17,38 @@
         </div>
         <hr>
         <div class="container is-centered is-mono" style="margin-top: 5vh">
+            <pre>
+                <code>
+print("Правила участия в AtkDef-е")
+
+rules = [
+{% for i in rules %}{{ i }}{% endfor %}
+        ]
+
+for rule in rules:
+    print(rule)
+                </code>
+            </pre>
+        </div>
+
+        <div class="container is-centered is-mono" style="margin-top: 5vh">
             <form action="" method="post">
                 <div class="field">
-                  <p class="control has-icons-left has-icons-right">
-                    <input class="input" name="team" placeholder="Название команды/Имя Участника">
-                  </p>
+                    <p class="control has-icons-left has-icons-right">
+                        <input class="input" name="team" placeholder="Название команды/Имя Участника">
+                    </p>
                 </div>
                 <div class="field">
-                  <p class="control has-icons-left">
-                    <input class="input" name="feedback" placeholder="Адрес для связи (почта/тг/вк)">
-                  </p>
+                    <p class="control has-icons-left">
+                        <input class="input" name="feedback" placeholder="Адрес для связи (почта/тг/вк)">
+                    </p>
                 </div>
                 <div class="field">
-                  <p class="control">
-                    <button class="button is-success" type="submit">
-                      Зарегистрироваться
-                    </button>
-                  </p>
+                    <p class="control">
+                        <button class="button is-success" type="submit">
+                            Зарегистрироваться
+                        </button>
+                    </p>
                 </div>
             </form>
         </div>

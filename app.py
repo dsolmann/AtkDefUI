@@ -10,8 +10,13 @@ def index():
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
+    rules = [
+        '"1. Делать то-то,"\n',
+        '"2. Не делать то-то"'
+    ]
+
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("register.html", rules=rules)
     elif request.method == "POST":
         team_name = request.form["team"]
         team_fb = request.form["feedback"]

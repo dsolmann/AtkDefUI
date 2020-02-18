@@ -15,14 +15,14 @@ class ServerState(enum.IntEnum):
 app = Flask(__name__)
 
 
-@app.route('/')
-def index():
-    # return render_template("index.html")
-    # return render_template("stub.html")
-    return render_template("register.html")
+# @app.route('/')
+# def index():
+#     # return render_template("index.html")
+#     # return render_template("stub.html")
+#     return render_template("register.html")
+#
 
-
-@app.route("/register", methods=["POST", "GET"])
+@app.route("/", methods=["POST", "GET"])
 def register():
     if request.method == "GET":
         return render_template("register.html", message='')

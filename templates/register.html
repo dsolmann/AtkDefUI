@@ -22,8 +22,13 @@
 print("Правила участия в AtkDef-е")
 
 rules = [
-  "121212",
-  "223232"
+  "Один участник/команда - один сервер!",
+  "Атаки на мастер-сервер (цтф.гитхаб.рф) запрещены!",
+  "В случае любых вопросов пишите в телегу @pufit или на почту pufit@yandex.ru",
+  "Администрация оставляет за собой право проводить регламентные работы, в течение которых" \
+                    "некоторые сервера могут быть недоступны.",
+  "За нарушение этих правил администрация оставляет за собой право дисквалифицировать участников",
+  "Дальнейшие указания будут выданы после подтверждения регистраци по указаному адресу. GL;HF!"
 ]
 
 for rule in rules:
@@ -41,7 +46,7 @@ for rule in rules:
                 </div>
                 <div class="field">
                     <p class="control has-icons-left">
-                        <input class="input" name="feedback" placeholder="Адрес для связи (почта/тг/вк)">
+                        <input class="input" name="feedback" placeholder="Адрес для связи (тг/вк)">
                     </p>
                 </div>
                 <div class="field">
@@ -52,6 +57,14 @@ for rule in rules:
                     </p>
                 </div>
             </form>
+
+            {% if message %}
+                <div class="content has-text-centered has-text-danger">
+                    <p>
+                        {{ message }}
+                    </p>
+                </div>
+            {% endif %}
         </div>
     </section>
 {% endblock %}

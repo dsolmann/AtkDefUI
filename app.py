@@ -1,4 +1,5 @@
 import enum
+import time
 from flask import Flask, render_template, request, redirect
 from src.utils.db_utils import session_scope, prepare_db
 from model import model
@@ -17,18 +18,29 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     # return render_template("index.html")
-    return render_template("stub.html")
+    # return render_template("stub.html")
+    return render_template("register.html")
 
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("register.html", message='')
     elif request.method == "POST":
-        team_name = request.form["team"]
-        team_fb = request.form["feedback"]
-        print(team_name, team_fb)  # Replace with needed API
-        return redirect("/servers")
+        with session_scope() as session:
+            team_name = request.form["team"]
+            team_fb = request.form["feedback"]
+
+            if session.query(model.Team).filter(model.Team.name == team_name).first() is None:
+                session.merge(
+                    model.Team(
+                        name=team_name,
+                        contact=team_fb,
+                        register_time=time.time(),
+                    )
+                )
+                return render_template("register.html", message='Регистрация прошла успешно! Мы свяжемся с вами!')
+            return render_template("register.html", message='Упс, команда с таким именем уже есть...')
 
 
 @app.route('/servers')

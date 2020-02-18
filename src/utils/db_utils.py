@@ -200,7 +200,6 @@ def session_scope(
 
     If :param:`timeout` is set, cancellation request will be send after :param:`timeout` seconds.
 
-    :param title: trace title (see `search.martylib.trace`)
     :param timeout: application level timeout in seconds
     :param statement_timeout: statement timeout for session in seconds (https://www.postgresql.org/docs/9.4/static/runtime-config-client.html)
     :param lock_timeout: lock timeout for session in seconds (https://www.postgresql.org/docs/9.4/static/runtime-config-client.html)

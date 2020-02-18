@@ -19,3 +19,5 @@ class Team(BaseModel):
     name = sqlalchemy.Column(types.TEXT, primary_key=True)
     server_hijacked = sqlalchemy.Column(types.INT)
     score = sqlalchemy.Column(types.INT)
+    contact = sqlalchemy.Column(types.TEXT)
+    register_time = sqlalchemy.Column(types.FLOAT)

@@ -4,3 +4,4 @@ requests
 sqlalchemy
 sqlalchemy_mixins
 psycopg2-binary
+easy-net

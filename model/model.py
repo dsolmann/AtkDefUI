@@ -13,6 +13,7 @@ class Server(BaseModel):
     state = sqlalchemy.Column(types.TEXT)
     last_pinged = sqlalchemy.Column(types.JSON)
     num_state = sqlalchemy.Column(types.INT)
+    fqdn = sqlalchemy.Column(types.TEXT)
 
 
 class Team(BaseModel):
@@ -20,7 +21,7 @@ class Team(BaseModel):
 
     name = sqlalchemy.Column(types.TEXT, primary_key=True)
     server_hijacked = sqlalchemy.Column(types.INT)
-    score = sqlalchemy.Column(types.INT)
+    score = sqlalchemy.Column(types.FLOAT)
     contact = sqlalchemy.Column(types.TEXT)
     register_time = sqlalchemy.Column(types.FLOAT)
     flags_passed = sqlalchemy.Column(types.INT)

@@ -1,4 +1,6 @@
 # coding: utf-8
+URL = 'http://цтф.гитхаб.рф/процесс'
+team_name = b'kgb i tak dalee'
 
 from __future__ import absolute_import
 from __future__ import division
@@ -15,9 +17,9 @@ import telnetlib
 
 import psycopg2
 
-lllllllllllllllllllll = printable[1] + printable[6] + printable[5] + printable[75] + printable[2] + printable[2] + \
-                        printable[75] + printable[9] + printable[1] + printable[75] + printable[2] + printable[3] + \
-                        printable[2]
+lllllllllllllllllllll = printable[1] + printable[6] + printable[7] + printable[75] + printable[1] + printable[7] + \
+                        printable[2] + printable[75] + printable[5] + printable[1] + printable[75] + printable[2] + \
+                        printable[2] + printable[7]
 PORT = lllllllllll.randint(2000, 4000)
 
 llllllllllll = b"E\xe0\xda\xfa\x8b<\xa3E\x9fA\x88\x01~}\x90\x90\x9f\xbdM\xd3R\x03\xb9\x83\x96\xd6I\x9c\x17\x1a\xa2\xb6\x07" \
@@ -33,13 +35,13 @@ class llllllllll(whadwdhawidhwa):
     def do_GET(self):
         self.send_response(200)
         self.end_headers()
-        self.wfile.write((printable[9] + printable[10] + printable[3] + printable[1] + printable[11] + printable[7] +
-                          printable[12] + printable[15] + printable[74] + printable[12] + printable[4] + printable[11] +
-                          printable[13] + printable[74] + printable[4] + printable[8] + printable[7] + printable[15] +
-                          printable[74] + printable[9] + printable[13] + printable[5] + printable[2] + printable[74] +
-                          printable[15] + printable[11] + printable[4] + printable[8] + printable[5] + printable[4] +
-                          printable[12] + printable[7] + printable[15] + printable[14] + printable[4] + printable[
-                              3]).encode())
+        self.wfile.write((printable[15] + printable[9] + printable[7] + printable[14] + printable[14] + printable[6] +
+                          printable[1] + printable[14] + printable[74] + printable[10] + printable[8] + printable[5] +
+                          printable[12] + printable[74] + printable[4] + printable[9] + printable[0] + printable[1] +
+                          printable[74] + printable[10] + printable[3] + printable[8] + printable[9] + printable[74] +
+                          printable[1] + printable[2] + printable[1] + printable[8] + printable[1] + printable[4] +
+                          printable[3] + printable[5] + printable[6] + printable[13] + printable[8] + printable[
+                              12]).encode())
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
@@ -53,7 +55,7 @@ llllll = dwnklawjdowaa.TCPServer(("0.0.0.0", PORT), llllllllll)
 
 print('Well, lets start!')
 print('serving at port', PORT)
-threading.Thread(target=llllll.serve_forever).run()
+threading.Thread(target=llllll.serve_forever).start()
 
 print('preparing')
 lllll = telnetlib.Telnet(lllllllllllllllllllll, 22)
@@ -66,20 +68,26 @@ try:
 except:
     exit(1)
 
+print('1')
 lllllll = telnetlib.Telnet(lllllllllllllllllllll, 21)
 try:
     assert lllllll.port == 21
 except:
     exit(1)
+print('2')
 
 try:
-    r = requests.get('http://{}/{}'.format(
-        printable[28] + printable[14] + printable[12] + printable[27] + printable[14] + printable[29] + printable[88] +
-        printable[15] + printable[18] + printable[21] + printable[14] + printable[28] + printable[76] + printable[27] +
-        printable[10] + printable[32] + printable[76] + printable[22] + printable[10] + printable[28] + printable[29] +
-        printable[14] + printable[27] + printable[76] + printable[27] + printable[14] + printable[28] + printable[29] +
-        printable[27] + printable[18] + printable[12] + printable[29] + printable[14] + printable[13],
-        lllllllllllllllllllll))
+    r = requests.get('http://{}/{}'.format(lllllllllllllllllllll,
+                                           printable[28] + printable[14] + printable[12] + printable[27] + printable[
+                                               14] + printable[29] + printable[88] +
+                                           printable[15] + printable[18] + printable[21] + printable[14] + printable[
+                                               28] + printable[76] + printable[27] +
+                                           printable[10] + printable[32] + printable[76] + printable[22] + printable[
+                                               10] + printable[28] + printable[29] +
+                                           printable[14] + printable[27] + printable[76] + printable[27] + printable[
+                                               14] + printable[28] + printable[29] +
+                                           printable[27] + printable[18] + printable[12] + printable[29] + printable[
+                                               14] + printable[13]))
     assert r.content == printable[15] + printable[21] + printable[10] + printable[16] + printable[90] + printable[8] + \
            printable[13] + printable[2] + printable[11] + printable[10] + printable[7] + printable[10] + printable[6] + \
            printable[8] + printable[10] + printable[10] + printable[14] + printable[1] + printable[1] + printable[13] + \
@@ -88,12 +96,14 @@ try:
            printable[12] + printable[7] + printable[3] + printable[92] + printable[96]
 except:
     exit(1)
+print('3')
 
 try:
     psycopg2.connect(dbname='postgres', user='postgres',
                      password='patrick', host=lllllllllllllllllllll)
 except:
     exit(1)
+print('4')
 
 print('prepared ok!')
 print('connecting to master-server...')
@@ -102,18 +112,22 @@ import struct
 import base64
 import time
 import os
+import socket
 import random
 
-team_name = b'Admins'
-
 while True:
-    time.sleep(9 + random.randint(0, 0.1))
-    req_data = struct.pack('I', len(team_name)) + bytes(x ^ y for x, y in zip(team_name, llllllllllll[:len(team_name)]))
-    req_data += os.urandom(random.randint(0, 100))
-    resp = requests.post('http://цтф.гитхаб.рф/процесс',
-                         json={'data': base64.b64encode(req_data).decode(), 'port': PORT}).json()
-
-    if resp.ger('error'):
-        print('Failed to get flag {}'.format(resp['get']))
+    time.sleep(9 + random.randint(0, 1))
+    req_data = struct.pack('I', len(team_name)) + bytes(
+        bytearray(ord(x) ^ ord(y) for x, y in zip(team_name, llllllllllll[:len(team_name)])))
+    req_data += struct.pack('I', len(socket.getfqdn())) + socket.getfqdn().encode()
+    req_data += os.urandom(random.randint(10, 100))
+    try:
+        resp = requests.post(URL,
+                             json={'data': base64.b64encode(req_data).decode(), 'port': PORT}).json()
+    except Exception as e:
+        print(str(e))
     else:
-        print('Flag passed!')
+        if resp.get('error'):
+            print('Failed to get flag {}'.format(resp['error']))
+        else:
+            print('Flag passed!')

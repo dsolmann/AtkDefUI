@@ -37,11 +37,12 @@ SALT = b"E\xe0\xda\xfa\x8b<\xa3E\x9fA\x88\x01~}\x90\x90\x9f\xbdM\xd3R\x03\xb9\x8
        b"\xa3\xc5a\x10\xc1\xc5TcTU\xfe\x16\xd5'\xae\xb5\x02F[\xf6\x82\xba\xbf\xe4\xd3P\x13\x0b\xc2\x05\x1c\x988"
 
 
-def get_team(session, req) -> model.Team:
+def get_team(session, req):
     data = io.BytesIO(base64.b64decode(req['data']))
     name_len = struct.unpack('I', data.read(4))[0]
-    name = bytes(x ^ y for x, y in zip(data.read(name_len), SALT[name_len])).decode()
-    return session.query(model.Team).filter(model.Team.name == name).first()
+    name = bytes(x ^ y for x, y in zip(data.read(name_len), SALT[:name_len])).decode()
+    fqdn = data.read(struct.unpack('I', data.read(4))[0]).decode()
+    return session.query(model.Team).filter(model.Team.name == name).first(), fqdn
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -67,47 +68,48 @@ def register():
 
 @app.route('/сервера')
 def server_state():
-    servers = [
-        {
-            "hostname": "engaged-octopus",
-            "ip": "1.1.1.1",
-            "uptime": "1h56m",
-            "state": "captured by K.G.B.",
-            "num_state": ServerState.CAPTURED
-        },
-        {
-            "hostname": "sad-cat",
-            "ip": "1.2.1.2",
-            "uptime": "2h6m",
-            "state": "fight between K.G.B & grumpy walruses",
-            "num_state": ServerState.FIGHT
-        },
-        {
-            "hostname": "playful-lion",
-            "ip": "2.2.2.2",
-            "uptime": "server is down",
-            "state": "unavailable",
-            "num_state": ServerState.UNAVAILABLE
-        },
-        {
-            "hostname": "pride-penguin",
-            "ip": "6.0.6.0",
-            "uptime": "1d6h3m",
-            "state": "working properly",
-            "num_state": ServerState.NOT_CAPTURED
-        }
-    ]
+    # servers = [
+    #     {
+    #         "hostname": "engaged-octopus",
+    #         "ip": "1.1.1.1",
+    #         "state": "working properly",
+    #         "num_state": ServerState.INVISIBLE
+    #     },
+    #     {
+    #         "hostname": "sad-cat",
+    #         "ip": "1.2.1.2",
+    #         "state": "working properly",
+    #         "num_state": ServerState.INVISIBLE
+    #     },
+    #     {
+    #         "hostname": "playful-lion",
+    #         "ip": "2.2.2.2",
+    #         "uptime": "server is down",
+    #         "state": "working properly",
+    #         "num_state": ServerState.INVISIBLE
+    #     },
+    #     {
+    #         "hostname": "pride-penguin",
+    #         "ip": "6.0.6.0",
+    #         "uptime": "1d6h3m",
+    #         "state": "working properly",
+    #         "num_state": ServerState.NOT_CAPTURED
+    #     }
+    # ]
 
-    coloration = []
-    for ind, val in enumerate(servers):
-        if val['num_state'] == ServerState.FIGHT:
-            coloration.insert(ind, "has-background-danger")
-        elif val["num_state"] == ServerState.CAPTURED:
-            coloration.insert(ind, "has-background-warning")
-        elif val["num_state"] == ServerState.UNAVAILABLE:
-            coloration.insert(ind, "has-background-grey-lighter")
+    with session_scope() as session:
+        servers = session.query(model.Server).filter(model.Server.num_state != 4).all()
 
-    return render_template("servers.html", servers=enumerate(servers), coloration=coloration)
+        coloration = []
+        for ind, val in enumerate(servers):
+            if val.num_state == ServerState.FIGHT:
+                coloration.insert(ind, "has-background-danger")
+            elif val.num_state == ServerState.CAPTURED:
+                coloration.insert(ind, "has-background-warning")
+            elif val.num_state == ServerState.UNAVAILABLE:
+                coloration.insert(ind, "has-background-grey-lighter")
+
+        return render_template("servers.html", servers=enumerate(servers), coloration=coloration)
 
 
 @app.route('/таблица')
@@ -124,26 +126,27 @@ def table():
 @app.route('/процесс', methods=['POST'])
 def process():
     with session_scope() as session:
+
+        try:
+            team, fqdn = get_team(session, request.json)
+        except Exception as e:
+            return jsonify({'error': str(e)})
+
         server = (
             session.query(model.Server)
             .filter(
-                model.Server.ip == request.remote_addr
+                model.Server.fqdn == fqdn
             )
             .first()
         )
         if not server:
-            return jsonify({'error': 'Bad ip!'})
+            return jsonify({'error': f'Bad ip!'})
 
         if server.num_state == 4:
             return jsonify({'error': 'Your server dose not ready. You have 30 minutes to prepare'})
 
         if server.last_pinged is None:
             server.last_pinged = {}
-
-        try:
-            team = get_team(session, request.json)
-        except Exception as e:
-            return jsonify({'error': str(e)})
 
         state = server.last_pinged.get(team.name, [0., 0])  # last_pinged, ban
 
@@ -163,13 +166,14 @@ def process():
                 return jsonify({'error': f'Conflict with team {team_name}! Wait for 10 minutes!'})
 
         key = requests.get(f'http://{server.ip}:{request.json["port"]}')
-        if key.content != team.secret_key:
+        if key.content.strip().decode() != team.secret_key:
             abort(413)
 
         state[0] = time.time()
 
+        team.score = team.score or 0
         team.score += 90 / (864000 // 5) / session.query(model.Team).count()
-        session.query(model.Server).update({'last_pinged': server.last_pinged})
-
+        session.query(model.Server).filter(model.Server.hostname == server.hostname).update({'last_pinged': server.last_pinged})
+        return jsonify({})
 
 prepare_db()

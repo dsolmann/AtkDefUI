@@ -20,12 +20,11 @@ class ServerState(enum.IntEnum):
 app = Flask(__name__)
 
 
-# @app.route('/')
-# def index():
-#     # return render_template("index.html")
-#     # return render_template("stub.html")
-#     return render_template("register.html")
-#
+@app.route('/')
+def index():
+    # return render_template("index.html")
+    return render_template("stub.html")
+    # return render_template("register.html")
 
 
 SALT = b"E\xe0\xda\xfa\x8b<\xa3E\x9fA\x88\x01~}\x90\x90\x9f\xbdM\xd3R\x03\xb9\x83\x96\xd6I\x9c\x17\x1a\xa2\xb6\x07" \
@@ -45,7 +44,7 @@ def get_team(session, req):
     return session.query(model.Team).filter(model.Team.name == name).first(), fqdn
 
 
-@app.route("/", methods=["POST", "GET"])
+@app.route("/регистрация", methods=["POST", "GET"])
 def register():
     if request.method == "GET":
         return render_template("register.html", message='')
